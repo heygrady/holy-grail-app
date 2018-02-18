@@ -20,11 +20,17 @@ Loading.propTypes = {
   timedOut: PropTypes.bool
 }
 
-const LoadableHome = Loadable({
+export const View = Loadable({
   loader: () => import('./components/HomeView'),
   loading: Loading
 })
 
-const HomeRoute = () => <Route path="/" exact component={LoadableHome} />
+const route = {
+  path: '/',
+  exact: true,
+  component: View
+}
 
-export default HomeRoute
+export const createRoute = props => <Route {...route} {...props} />
+
+export default route

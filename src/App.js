@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 
+import { withRouter } from 'react-router-dom'
+
+import TopNav from './components/TopNav'
+import Routes from './routes'
 import logo from './logo.svg'
 import styles from './App.css'
 
@@ -19,13 +23,15 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
+          <TopNav />
         </header>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+        <Routes />
       </div>
     )
   }
 }
 
-export default App
+export default withRouter(App)

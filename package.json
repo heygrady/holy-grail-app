@@ -76,6 +76,7 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "prettier": "^1.10.2",
+    "react-scripts": "^1.1.1",
     "to-string-loader": "^1.1.5"
   },
   "jest": {
@@ -140,6 +141,9 @@
     "env": {
       "es6": true,
       "node": true
+    },
+    "rules": {
+      "prettier/prettier": "error"
     }
   },
   "prettier": {
