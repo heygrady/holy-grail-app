@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 
 import logo from './logo.svg'
-import './App.css'
+import styles from './App.css'
 
 class App extends Component {
   render() {
@@ -13,7 +13,7 @@ class App extends Component {
           <title>My Title</title>
           <link rel="canonical" href="http://mysite.com/example" />
           <style type="text/css" media="all">
-            {'body { background-color: pink; }'}
+            {styles.toString()}
           </style>
         </Helmet>
         <header className="App-header">
