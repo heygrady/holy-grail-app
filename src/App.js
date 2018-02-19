@@ -6,6 +6,8 @@ import { withRouter } from 'react-router-dom'
 import TopNav from './components/TopNav'
 import Routes from './routes'
 import logo from './logo.svg'
+
+import globalStyles from './index.css'
 import styles from './App.css'
 
 class App extends Component {
@@ -16,6 +18,9 @@ class App extends Component {
           <meta charSet="utf-8" />
           <title>My Title</title>
           <link rel="canonical" href="http://mysite.com/example" />
+          <style type="text/css" media="all">
+            {globalStyles.toString()}
+          </style>
           <style type="text/css" media="all">
             {styles.toString()}
           </style>

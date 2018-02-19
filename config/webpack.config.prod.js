@@ -8,6 +8,7 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const eslintFormatter = require('react-dev-utils/eslintFormatter')
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
+const { ReactLoadablePlugin } = require('react-loadable/webpack')
 const paths = require('./paths')
 const getClientEnvironment = require('./env')
 
@@ -115,7 +116,12 @@ module.exports = {
           {
             options: {
               formatter: eslintFormatter,
-              eslintPath: require.resolve('eslint')
+              eslintPath: require.resolve('eslint'),
+              baseConfig: {
+                extends: [require.resolve('eslint-config-react-app')]
+              },
+              ignore: false,
+              useEslintrc: false
             },
             loader: require.resolve('eslint-loader')
           }
@@ -285,6 +291,9 @@ module.exports = {
     // having to parse `index.html`.
     new ManifestPlugin({
       fileName: 'asset-manifest.json'
+    }),
+    new ReactLoadablePlugin({
+      filename: './build/react-loadable.json'
     }),
     // Generate a service worker script that will precache, and keep up to date,
     // the HTML & assets that are part of the Webpack build.

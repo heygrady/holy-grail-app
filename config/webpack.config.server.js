@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+const { ReactLoadablePlugin } = require('react-loadable/webpack')
 
 const config = require('./webpack.config.prod')
 
@@ -26,5 +27,12 @@ config.plugins = config.plugins.filter(
       plugin instanceof SWPrecacheWebpackPlugin
     )
 )
+const index = config.plugins.findIndex(
+  plugin => plugin instanceof ReactLoadablePlugin
+)
+
+config.plugins[index] = new ReactLoadablePlugin({
+  filename: './build/react-loadable.server.json'
+})
 
 module.exports = config

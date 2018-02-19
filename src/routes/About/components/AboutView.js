@@ -1,6 +1,5 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
-import RoutePropTypes from '../../../utils/react-router-prop-types'
+import RoutePropTypes from '../../../utils/route-prop-types'
 
 const AboutView = ({ history, location, match }) => {
   return <div>About!</div>
