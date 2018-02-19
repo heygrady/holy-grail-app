@@ -4,11 +4,20 @@ import { NavLink } from 'react-router-dom'
 import './TopNav.css'
 
 const TopNav = () => (
-  <div>
-    <NavLink to="/" exact activeClassName="selected">
+  <div className="TopNav">
+    <NavLink
+      to="/"
+      exact
+      activeClassName="TopNav-selected"
+      className="TopNav__Link"
+    >
       Home
     </NavLink>
-    <NavLink to="/about" activeClassName="selected">
+    <NavLink
+      to="/about"
+      activeClassName="TopNav-selected"
+      className="TopNav__Link"
+    >
       About
     </NavLink>
   </div>

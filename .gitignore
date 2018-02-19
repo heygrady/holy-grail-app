@@ -8,6 +8,9 @@
 
 # production
 /build
+/lib
+/server/app
+/server/static
 
 # misc
 .DS_Store

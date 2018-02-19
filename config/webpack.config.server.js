@@ -1,13 +1,17 @@
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const { ReactLoadablePlugin } = require('react-loadable/webpack')
 
+const paths = require('./paths')
 const config = require('./webpack.config.prod')
 
 config.entry = './src/index.server.js'
 
-config.output.filename = 'static/server/[name].js'
+config.output.path = paths.appServer
+config.output.publicPath = '/'
+config.output.filename = '[name].js'
 config.output.libraryTarget = 'commonjs2'
 delete config.output.chunkFilename
 
@@ -22,17 +26,12 @@ config.module.rules[1].oneOf[2].loader.splice(0, 2, {
 config.plugins = config.plugins.filter(
   plugin =>
     !(
+      plugin instanceof webpack.optimize.CommonsChunkPlugin ||
       plugin instanceof HtmlWebpackPlugin ||
       plugin instanceof ManifestPlugin ||
-      plugin instanceof SWPrecacheWebpackPlugin
+      plugin instanceof SWPrecacheWebpackPlugin ||
+      plugin instanceof ReactLoadablePlugin
     )
 )
-const index = config.plugins.findIndex(
-  plugin => plugin instanceof ReactLoadablePlugin
-)
-
-config.plugins[index] = new ReactLoadablePlugin({
-  filename: './build/react-loadable.server.json'
-})
 
 module.exports = config

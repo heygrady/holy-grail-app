@@ -5,7 +5,8 @@ import { Route } from 'react-router-dom'
 import Loading from '../../components/Loading'
 
 export const View = Loadable({
-  loader: () => import('./components/HomeView'),
+  loader: () =>
+    import(/* webpackChunkName = "HomeView" */ './components/HomeView'),
   loading: Loading,
   timeout: 5000
 })

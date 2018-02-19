@@ -10,6 +10,8 @@ import logo from './logo.svg'
 import globalStyles from './index.css'
 import styles from './App.css'
 
+const __SERVER__ = typeof window === 'undefined'
+
 class App extends Component {
   render() {
     return (
@@ -17,13 +19,8 @@ class App extends Component {
         <Helmet>
           <meta charSet="utf-8" />
           <title>My Title</title>
-          <link rel="canonical" href="http://mysite.com/example" />
-          <style type="text/css" media="all">
-            {globalStyles.toString()}
-          </style>
-          <style type="text/css" media="all">
-            {styles.toString()}
-          </style>
+          {__SERVER__ && <style>{globalStyles.toString()}</style>}
+          {__SERVER__ && <style>{styles.toString()}</style>}
         </Helmet>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />

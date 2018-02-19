@@ -10,17 +10,16 @@ import App from './App'
 export const preloadModules = preloadAll
 
 export default async ({ context, url, stats }) => {
-  await Promise.resolve()
   const modules = []
+  const report = moduleName => modules.push(moduleName)
   const body = renderToString(
-    <Capture report={moduleName => modules.push(moduleName)}>
+    <Capture report={report}>
       <StaticRouter location={url} context={context}>
         <App />
       </StaticRouter>
     </Capture>
   )
   const helmet = Helmet.renderStatic()
-  debugger
   const bundles = getBundles(stats, modules)
   return { body, helmet, bundles }
 }

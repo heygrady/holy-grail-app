@@ -1,3 +1,13 @@
+.TopNav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.TopNav__Link {
+  color: white;
+  text-decoration: none;
+  margin: 0 12px;
+}
 .TopNav-selected {
   font-weight: bold;
 }

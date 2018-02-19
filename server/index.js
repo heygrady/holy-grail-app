@@ -1,7 +1,7 @@
 const path = require('path')
 const express = require('express')
 const serveStatic = require('serve-static')
-const { preloadModules } = require('../build/static/server/main')
+const { preloadModules } = require('./app/main')
 const reactApp = require('./react-app')
 
 const PORT = process.env.PORT || 3001

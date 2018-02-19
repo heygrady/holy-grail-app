@@ -2,6 +2,7 @@ const autoprefixer = require('autoprefixer')
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin')
@@ -233,6 +234,10 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest',
+      minChunks: Infinity
+    }),
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
@@ -244,6 +249,7 @@ module.exports = {
       inject: true,
       template: paths.appHtml,
       minify: {
+        ignoreCustomComments: [/^\s*\$\w+/],
         removeComments: true,
         collapseWhitespace: true,
         removeRedundantAttributes: true,
@@ -255,6 +261,16 @@ module.exports = {
         minifyCSS: true,
         minifyURLs: true
       }
+    }),
+    new ScriptExtHtmlWebpackPlugin({
+      custom: [
+        {
+          test: /\.js$/,
+          attribute: 'crossorigin',
+          value: 'anonymous'
+        }
+      ],
+      defaultAttribute: 'defer'
     }),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
