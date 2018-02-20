@@ -1,8 +1,11 @@
 import React from 'react'
 import Loadable from 'react-loadable'
 import { Route } from 'react-router-dom'
-
+import withLoadData from '../../utils/withLoadData'
 import Loading from '../../components/Loading'
+
+const loadData = async (store, match, location) =>
+  console.log('loadData HomeView', { store, match, location })
 
 export const View = Loadable({
   loader: () =>
@@ -14,7 +17,7 @@ export const View = Loadable({
 const route = {
   path: '/',
   exact: true,
-  component: View
+  component: withLoadData(loadData, Loading)(View)
 }
 
 export const createRoute = props => <Route {...route} {...props} />

@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@comfy/redux-selectors": "^0.3.1",
+    "hoist-non-react-statics": "^2.5.0",
     "lodash.get": "^4.4.2",
     "nodemon": "^1.15.1",
     "qs": "^6.5.1",
