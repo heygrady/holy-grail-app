@@ -2,6 +2,10 @@ const fs = require('fs')
 const path = require('path')
 const router = require('express').Router()
 
+const deferMainStyles = require('./helpers/deferMainStyles')
+const makeBundleScripts = require('./helpers/makeBundleScripts')
+const makeBundleStyles = require('./helpers/makeBundleStyles')
+
 const stats = require('../build/react-loadable.json')
 const render = require('./app/main').default
 
@@ -9,23 +13,6 @@ const defaultNoscript = `
 <noscript>
   You need to enable JavaScript to run this app.
 </noscript>`
-
-const makeBundleStyles = bundles =>
-  bundles
-    .filter(bundle => bundle.file.endsWith('.css'))
-    .map(style => `<link href="/dist/${style.file}" rel="stylesheet"/>`)
-    .join('')
-
-const makeBundleScripts = bundles =>
-  bundles
-    .filter(bundle => bundle.file.endsWith('.js'))
-    .map(
-      script =>
-        `<script src="/${
-          script.file
-        }" defer="defer" crossorigin="anonymous"></script>`
-    )
-    .join('')
 
 router.get('*', (req, res) => {
   const fileName = path.join(__dirname, '../build', 'index.html')
@@ -48,6 +35,9 @@ router.get('*', (req, res) => {
         const scripts = makeBundleScripts(bundles).concat(
           helmet.script.toString()
         )
+
+        // TODO: create the main css as a deferred style with a noscript fallback
+        deferMainStyles(file)
 
         res.write(
           file
