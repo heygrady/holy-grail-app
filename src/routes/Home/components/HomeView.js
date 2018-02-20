@@ -7,6 +7,7 @@ import styles from './HomeView.css'
 const __SERVER__ = typeof window === 'undefined'
 
 const HomeView = ({ history, location, match }) => {
+  console.log(location)
   return (
     <div className="HomeView">
       {__SERVER__ && (
