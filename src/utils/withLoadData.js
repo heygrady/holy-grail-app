@@ -115,12 +115,17 @@ const withLoadData = (
             />
           )
         }
-        return <InnerComponent {...this.props} />
+        const { wrappedComponentRef, ...remainingProps } = this.props
+        return <InnerComponent {...remainingProps} ref={wrappedComponentRef} />
       }
     }
+    WithLoadData.displayName = `withLoadData(${InnerComponent.displayName ||
+      InnerComponent.name})`
+    WithLoadData.WrappedComponent = InnerComponent
     WithLoadData.propTypes = {
       location: RoutePropTypes.location,
-      match: RoutePropTypes.match
+      match: RoutePropTypes.match,
+      wrappedComponentRef: PropTypes.func
     }
     WithLoadData.contextTypes = {
       store: PropTypes.object
