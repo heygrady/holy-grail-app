@@ -6,6 +6,24 @@
 - [sagas](./sagas/README.md)
 - [selectors](./selectors/README.md)
 
+```
+- src/modules/
+  - moduleNameHere/
+    - actions/index.js
+    - constants/index.js
+    - reducers/
+      - childNameHereReducer.js
+      - childNameHereReducer.spec.js
+      - index.js
+    - sagas/
+      - actionNameSaga.js
+      - actionNameSaga.spec.js
+      - index.js
+    - selectors/index.js
+    - index.js
+  - index.js
+```
+
 #### With modules
 
 Below you can see that grouping the core redux concepts together into modules makes the top-level app structure much cleaner. It also allows for modules to be deeply nested within a route. It's trivial to combine these modules together into single store. Using helper functions like `injectReducer`, `injectSaga` or `injectModule` can even enable code-splitting, where a module might not load unless that route is loaded.

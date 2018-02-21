@@ -1,7 +1,7 @@
 # React router container
 
 ```js
-import { connect } from '@comfy/react-router-container'
+import { connect as connectHistoryStore } from '@comfy/react-router-container'
 
 import My from './My'
 
@@ -45,6 +45,6 @@ const mapHistoryPushToProps = (getHistoryStore, ownProps) => {
   }
 }
 
-const MyContainer = connect(mapHistoryStateToProps, mapHistoryPushToProps)(My)
+const MyContainer = connectHistoryStore(mapHistoryStateToProps, mapHistoryPushToProps)(My)
 export default MyContainer
 ```

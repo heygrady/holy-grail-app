@@ -4,9 +4,9 @@
 - react-loadable
 - react-helmet
 - @comfy/react-router-redux
-- [@comfy/react-router-container](./packages/react-router-container)
+- [@comfy/react-router-container](./packages/react-router-container/README.md)
 - @comfy/react-state-container
-- @comfy/with-load-data
+- [@comfy/with-load-data](./packages/wiith-load-data/README.md)
 - @comfy/with-styles
 - @comfy/with-module
 
@@ -28,8 +28,8 @@ Here's a proposed top-level app structure. Some details have been omitted for br
   - store/
   - styles/
   - utils/
-  - App.(module|global)?.(s?css|less)
   - App.js
+  - App.module.(s?css|less)
   - App.spec.js
   - index.client.js
   - index.ios.js
@@ -45,16 +45,16 @@ At the core of our app is routing. For the web client and for the server, we dec
 
 In essence, each route in a miniature application. It can contain its own components and modules. Those components and modules can be shared across routes quite easily. When a component or module is required by many different routes it can be bounced up to the app-level folders quite easily. This makes it painless to reconfigure the app while also enabling us to encapsulate logic where it's actually used.
 
-Coupled with `react-loadable` code-splitting and higher-oder-components like `withLoadData`, `withModules`, `withStyles`, the app bundle can be cleanly broken down. With these techniques, the configuration for each route can be co-located with the route itself.
+Coupled with `react-loadable` code-splitting and higher-oder-components like `withLoadData`, `withModules`, `withStyles`, the app bundle can be cleanly broken down into composable chinks. With these techniques, the configuration for each route can be co-located with the route itself.
 
 ```
 - src/routes/
   - RouteNameHere/
     - components/
       - RouteNameHereView/
-        - RouteNameHereView.(module|global)?.(s?css|less)
-        - RouteNameHereView.spec.js
         - RouteNameHereView.js
+        - RouteNameHereView.module.(s?css|less)
+        - RouteNameHereView.spec.js
         - index.js
     - modules/
     - routes/
@@ -102,8 +102,8 @@ Components are easily abused. There is a push to ensure that components are pure
 - src/components/
   - ComponentNameHere/
     - SubComponentNameHere/
-    - ComponentNameHere.(module|global)?.(s?css|less)
     - ComponentNameHere.js
+    - ComponentNameHere.module.(s?css|less)
     - ComponentNameHere.spec.js
     - ComponentNameHereContainer.js
     - ComponentNameHereContainer.spec.js
@@ -129,7 +129,7 @@ See: [`styles/`](./styles/README.md)
 
 ```
 - src/styles/
-  - style-name-here.(module|global)?.(s?css|less)
+  - style-name-here.module.(s?css|less)
 ```
 
 ## Server
