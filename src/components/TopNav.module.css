@@ -3,11 +3,11 @@
   flex-direction: row;
   justify-content: center;
 }
-.TopNav__Link {
+.link {
   color: white;
   text-decoration: none;
   margin: 0 12px;
 }
-.TopNav-selected {
+.selected {
   font-weight: bold;
 }
