@@ -24,9 +24,7 @@ window.mainApp = () => {
     )
   })
 }
-if (process.env.NODE_ENV !== 'production') {
+timeout = setTimeout(() => {
+  timeout = undefined
   window.mainApp()
-}
-if (process.env.NODE_ENV === 'production') {
-  timeout = setTimeout(window.mainApp, 100)
-}
+}, 200)

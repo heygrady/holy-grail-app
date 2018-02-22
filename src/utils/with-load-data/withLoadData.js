@@ -18,7 +18,6 @@ const withLoadData = (
   Loading = DefaultLoading,
   { delay = defaultDelay, timeout = defaultTimeout } = {}
 ) => {
-  let isFirstRender = true
   // TODO: invariant if loadData === undefined
   return InnerComponent => {
     class WithLoadData extends Component {
@@ -38,10 +37,6 @@ const withLoadData = (
 
       componentWillMount() {
         if (__SERVER__) {
-          return
-        }
-        if (isFirstRender) {
-          isFirstRender = false
           return
         }
 

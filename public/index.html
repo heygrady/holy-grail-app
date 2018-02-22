@@ -39,26 +39,40 @@
     -->
     <!-- $cssLinks -->
     <script>
+      var called = 0
+      var dCount = 0
+      function doneLoading() {
+        called += 1
+        if (called === dCount && typeof window.mainApp === 'function') {
+          var whenever =
+            window.requestAnimationFrame ||
+            function(func) {
+              setTimeout(func, 0)
+            }
+          whenever(window.mainApp)
+        }
+      }
       function lCss(u, m) {
-        var l = document.createElement('link');
+        dCount += 1
+        var l = document.createElement('link')
         l.className = 'deferred-css'
-        l.rel = 'stylesheet';
-        l.type = 'text/css';
-        l.href = u;
-        l.media = m;
+        l.rel = 'stylesheet'
+        l.type = 'text/css'
+        l.href = u
+        l.media = m
+        l.onload = doneLoading
         document.getElementsByTagName('head')[0].appendChild(l)
       }
       function dCss() {
-        /* $cssUrls */
-        if(typeof window.mainApp === 'function') {
-          var whenever = (window.requestAnimationFrame || function (func) { setTimeout(func, 0) });
-          whenever(window.mainApp);
+        if (dCount === 0) {
+          dCount = 1
+          doneLoading()
         }
       }
       if (window.addEventListener) {
         window.addEventListener('DOMContentLoaded', dCss, false)
       } else {
-        window.onload=dCss
+        window.onload = dCss
       }
     </script>
   </body>

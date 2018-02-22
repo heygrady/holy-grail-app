@@ -7,20 +7,22 @@ import Loading from '../../components/Loading'
 
 import loadData from './loadData'
 
-const timeout = 1000
 const delay = 200
-export const View = Loadable({
-  loader: () =>
-    import(/* webpackChunkName = "HomeView" */ './components/HomeView'),
-  loading: Loading,
-  delay,
-  timeout
-})
+const timeout = 1000
+export const View = withLoadData(loadData, Loading, { delay, timeout })(
+  Loadable({
+    loader: () =>
+      import(/* webpackChunkName = "HomeView" */ './components/HomeView'),
+    loading: Loading,
+    delay,
+    timeout
+  })
+)
 
 const route = {
   path: '/',
   exact: true,
-  component: withLoadData(loadData, Loading, { delay, timeout })(View)
+  component: View
 }
 
 export const createRoute = props => <Route {...route} {...props} />

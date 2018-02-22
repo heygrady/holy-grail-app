@@ -63,7 +63,7 @@ router.get('*', (req, res) => {
               '<!-- $cssLinks -->',
               `<noscript class="deferred-css-noscript">${cssLinks}</noscript>`
             )
-            .replace(/(dCss\(\){)/, `$1${cssUrls}`)
+            .replace(/(dCss\(\)\s?{)/, `$1${cssUrls}`)
             .replace(
               /(manifest.*?\.js" defer="defer" crossorigin="anonymous"><\/script>)/,
               `$1${scripts}`
