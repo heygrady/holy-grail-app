@@ -19,7 +19,10 @@ config.target = 'node'
 config.externals = /^[a-z\-0-9]+$/
 delete config.devtool
 
-config.module.rules[1].oneOf[2].loader.splice(0, 2, {
+config.module.rules[2].oneOf[3].loader.splice(0, 2, {
+  loader: require.resolve('to-string-loader')
+})
+config.module.rules[2].oneOf[4].loader.splice(0, 2, {
   loader: require.resolve('to-string-loader')
 })
 

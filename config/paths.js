@@ -1,9 +1,11 @@
 const path = require('path')
 const fs = require('fs')
 const url = require('url')
+const findPkg = require('find-pkg')
+const globby = require('globby')
 
 // Make sure any symlinks in the project folder are resolved:
-// https://github.com/facebookincubator/create-react-app/issues/637
+// https://github.com/facebook/create-react-app/issues/637
 const appDirectory = fs.realpathSync(process.cwd())
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath)
 
@@ -39,6 +41,7 @@ function getServedPath(appPackageJson) {
 // config after eject: we're in ./config/
 module.exports = {
   dotenv: resolveApp('.env'),
+  appPath: resolveApp('.'),
   appBuild: resolveApp('build'),
   appServer: resolveApp('server/app'),
   appPublic: resolveApp('public'),
@@ -51,4 +54,46 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json'))
+}
+
+let checkForMonorepo = true
+
+module.exports.srcPaths = [module.exports.appSrc]
+
+const findPkgs = (rootPath, globPatterns) => {
+  const globOpts = {
+    cwd: rootPath,
+    strict: true,
+    absolute: true
+  }
+  return globPatterns
+    .reduce(
+      (pkgs, pattern) =>
+        pkgs.concat(globby.sync(path.join(pattern, 'package.json'), globOpts)),
+      []
+    )
+    .map(f => path.dirname(path.normalize(f)))
+}
+
+const getMonorepoPkgPaths = () => {
+  const monoPkgPath = findPkg.sync(path.resolve(appDirectory, '..'))
+  if (monoPkgPath) {
+    // get monorepo config from yarn workspace
+    const pkgPatterns = require(monoPkgPath).workspaces
+    if (pkgPatterns == null) {
+      return []
+    }
+    const pkgPaths = findPkgs(path.dirname(monoPkgPath), pkgPatterns)
+    // only include monorepo pkgs if app itself is included in monorepo
+    if (pkgPaths.indexOf(appDirectory) !== -1) {
+      return pkgPaths.filter(f => fs.realpathSync(f) !== appDirectory)
+    }
+  }
+  return []
+}
+
+if (checkForMonorepo) {
+  // if app is in a monorepo (lerna or yarn workspace), treat other packages in
+  // the monorepo as if they are app source
+  Array.prototype.push.apply(module.exports.srcPaths, getMonorepoPkgPaths())
 }
