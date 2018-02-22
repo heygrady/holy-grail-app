@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import hoistStatics from 'hoist-non-react-statics'
-import RoutePropTypes from './route-prop-types'
 import DefaultLoading from '../components/Loading'
 
 const __SERVER__ = !(
@@ -11,16 +10,16 @@ const __SERVER__ = !(
   window.document.createElement
 )
 
-const defaultTimeout = 1000
 const defaultDelay = 200
+const defaultTimeout = 1000
 
 const withLoadData = (
   loadData,
   Loading = DefaultLoading,
-  { timeout = defaultTimeout, delay = defaultDelay } = {}
+  { delay = defaultDelay, timeout = defaultTimeout } = {}
 ) => {
   let isFirstRender = false
-  // TODO: invariant if !loadData
+  // TODO: invariant if loadData === undefined
   return InnerComponent => {
     class WithLoadData extends Component {
       constructor(props, context) {
@@ -67,8 +66,8 @@ const withLoadData = (
         }, delay)
 
         const { store } = this.context
-        const { match, location } = this.props
-        const promise = loadData(store, match, location)
+        const { location, match } = this.props
+        const promise = loadData(store, location, match)
 
         if (promise && typeof promise.then === 'function') {
           promise
@@ -91,12 +90,12 @@ const withLoadData = (
       clearTimeouts() {
         if (this.timeoutId) {
           clearTimeout(this.timeoutId)
+          this.timeoutId = undefined
         }
         if (this.deferId) {
           clearTimeout(this.deferId)
+          this.deferId = undefined
         }
-        this.timeoutId = undefined
-        this.deferId = undefined
       }
 
       componentWillUnmount() {
@@ -119,17 +118,18 @@ const withLoadData = (
         return <InnerComponent {...remainingProps} ref={wrappedComponentRef} />
       }
     }
-    WithLoadData.displayName = `withLoadData(${InnerComponent.displayName ||
-      InnerComponent.name})`
-    WithLoadData.WrappedComponent = InnerComponent
     WithLoadData.propTypes = {
-      location: RoutePropTypes.location,
-      match: RoutePropTypes.match,
+      location: PropTypes.object,
+      match: PropTypes.object,
       wrappedComponentRef: PropTypes.func
     }
     WithLoadData.contextTypes = {
       store: PropTypes.object
     }
+    WithLoadData.displayName = `withLoadData(${InnerComponent.displayName ||
+      InnerComponent.name})`
+    WithLoadData.WrappedComponent = InnerComponent
+
     hoistStatics(WithLoadData, InnerComponent)
     return withRouter(WithLoadData)
   }
