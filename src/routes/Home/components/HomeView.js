@@ -1,20 +1,16 @@
 import React from 'react'
 import Helmet from 'react-helmet'
+import withCriticalStyles from '../../../utils/with-critical-styles'
 import RoutePropTypes from '../../../utils/route-prop-types'
 
 import styles from './HomeView.css'
 
-const __SERVER__ = typeof window === 'undefined'
-
 const HomeView = ({ history, location, match }) => {
-  console.log(location)
   return (
     <div className="HomeView">
-      {__SERVER__ && (
-        <Helmet>
-          <style>{styles.toString()}</style>
-        </Helmet>
-      )}
+      <Helmet>
+        <title>Home</title>
+      </Helmet>
       Home!
     </div>
   )
@@ -26,4 +22,4 @@ HomeView.propTypes = {
   match: RoutePropTypes.match
 }
 
-export default HomeView
+export default withCriticalStyles(styles)(HomeView)

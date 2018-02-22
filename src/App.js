@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 
-import { withRouter } from 'react-router-dom'
+import withCriticalStyles from './utils/with-critical-styles'
 
 import TopNav from './components/TopNav'
 import Routes from './routes'
@@ -10,17 +10,13 @@ import logo from './logo.svg'
 import globalStyles from './index.css'
 import styles from './App.css'
 
-const __SERVER__ = typeof window === 'undefined'
-
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Helmet>
+        <Helmet titleTemplate="%s | Holy Grail">
           <meta charSet="utf-8" />
           <title>My Title</title>
-          {__SERVER__ && <style>{globalStyles.toString()}</style>}
-          {__SERVER__ && <style>{styles.toString()}</style>}
         </Helmet>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
@@ -36,4 +32,4 @@ class App extends Component {
   }
 }
 
-export default withRouter(App)
+export default withCriticalStyles(globalStyles, styles)(App)

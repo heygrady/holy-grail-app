@@ -9,10 +9,8 @@ const makeBundleStyles = require('./helpers/makeBundleStyles')
 const stats = require('../build/react-loadable.json')
 const render = require('./app/main').default
 
-const defaultNoscript = `
-<noscript>
-  You need to enable JavaScript to run this app.
-</noscript>`
+const defaultNoscript =
+  '<noscript>You need to enable JavaScript to run this app.</noscript>'
 
 router.get('*', (req, res) => {
   const fileName = path.join(__dirname, '../build', 'index.html')
@@ -30,14 +28,22 @@ router.get('*', (req, res) => {
           return
         }
 
-        const styles = makeBundleStyles(bundles)
+        let { links: cssLinks, urls: cssUrls } = makeBundleStyles(bundles)
 
         const scripts = makeBundleScripts(bundles).concat(
           helmet.script.toString()
         )
 
-        // TODO: create the main css as a deferred style with a noscript fallback
-        deferMainStyles(file)
+        const { link: mainLink, url: mainUrl } = deferMainStyles(file)
+        if (mainLink) {
+          file = file.replace(mainLink, '')
+          cssLinks = mainLink + cssLinks
+          cssUrls = mainUrl + cssUrls
+        }
+
+        // TODO: scan helmet links for styles and defer them
+        // const helmetCssLinks = helmet.link.toString()
+        // console.log(helmet.link)
 
         res.write(
           file
@@ -46,13 +52,18 @@ router.get('*', (req, res) => {
             .replace('<!-- $base -->', helmet.base.toString())
             .replace('<!-- $meta -->', helmet.meta.toString())
             .replace('<!-- $link -->', helmet.link.toString())
-            .replace('<!-- $style -->', helmet.style.toString().concat(styles))
+            .replace('<!-- $style -->', helmet.style.toString())
             .replace('$bodyattributes', helmet.bodyAttributes.toString())
             .replace(
               '<!-- $noscript -->',
               helmet.noscript.toString() || defaultNoscript
             )
             .replace('<!-- $body -->', body)
+            .replace(
+              '<!-- $cssLinks -->',
+              `<noscript class="deferred-css-noscript">${cssLinks}</noscript>`
+            )
+            .replace(/(dCss\(\){)/, `$1${cssUrls}`)
             .replace(
               /(manifest.*?\.js" defer="defer" crossorigin="anonymous"><\/script>)/,
               `$1${scripts}`

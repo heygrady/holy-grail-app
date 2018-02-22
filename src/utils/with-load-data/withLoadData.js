@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import hoistStatics from 'hoist-non-react-statics'
-import DefaultLoading from '../components/Loading'
+import DefaultLoading from '../../components/Loading'
 
 const __SERVER__ = !(
   typeof window !== 'undefined' &&
@@ -18,7 +18,7 @@ const withLoadData = (
   Loading = DefaultLoading,
   { delay = defaultDelay, timeout = defaultTimeout } = {}
 ) => {
-  let isFirstRender = false
+  let isFirstRender = true
   // TODO: invariant if loadData === undefined
   return InnerComponent => {
     class WithLoadData extends Component {
@@ -104,7 +104,7 @@ const withLoadData = (
 
       render() {
         const { error, loaded, pastDelay, timedOut } = this.state
-        if (!loaded) {
+        if (!__SERVER__ && !loaded) {
           return (
             <Loading
               {...this.props}

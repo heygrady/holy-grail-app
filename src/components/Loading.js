@@ -14,7 +14,7 @@ const Loading = ({ error, pastDelay, timedOut }) => {
 }
 
 Loading.propTypes = {
-  error: PropTypes.object,
+  error: PropTypes.bool,
   pastDelay: PropTypes.bool,
   timedOut: PropTypes.bool
 }
