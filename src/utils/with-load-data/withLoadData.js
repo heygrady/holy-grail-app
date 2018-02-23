@@ -61,8 +61,8 @@ const withLoadData = (
         }, delay)
 
         const { store } = this.context
-        const { location, match } = this.props
-        const promise = loadData(store, location, match)
+        const { history, match } = this.props
+        const promise = loadData(store, history, match)
 
         if (promise && typeof promise.then === 'function') {
           promise
@@ -114,7 +114,7 @@ const withLoadData = (
       }
     }
     WithLoadData.propTypes = {
-      location: PropTypes.object,
+      history: PropTypes.object,
       match: PropTypes.object,
       wrappedComponentRef: PropTypes.func
     }

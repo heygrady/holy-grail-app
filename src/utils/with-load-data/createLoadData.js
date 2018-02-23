@@ -8,14 +8,14 @@ Using this creator will be a much smaller footprint at the expense of not being
 able to really do convenient async.
 
 Prefer:
-const loadData = async (store, location, match) => {
+const loadData = async (store, history, match) => {
   const data = await fetch('https://www.reddit.com/r/reactjs.json')
   store.dispatch(receiveData(data))
 }
 
 Fallback:
 import { createLoadData } from 'with-load-data'
-const loadData = createLoadData((store, location, match) => {
+const loadData = createLoadData((store, history, match) => {
   return fetch('https://www.reddit.com/r/reactjs.json')
   .then((data) => {
     store.dispatch(receiveData(data))
@@ -24,10 +24,10 @@ const loadData = createLoadData((store, location, match) => {
 
 */
 
-const createLoadData = func => (store, location, match) =>
+const createLoadData = func => (store, history, match) =>
   new Promise((resolve, reject) => {
     try {
-      const result = func(store, location, match)
+      const result = func(store, history, match)
       if (result && typeof result.then === 'function') {
         result.then(resolve, reject).catch(reject)
       } else {

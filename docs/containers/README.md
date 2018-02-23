@@ -15,7 +15,7 @@ A component is really three things:
 import { connect } from 'redux'
 
 import My from './My'
-import { selectPersonName } '../modules/moduleNameHere/selectors'
+import { selectPersonName, selectPersonActive } '../modules/moduleNameHere/selectors'
 import { toggleActive } '../modules/moduleNameHere/actions'
 
 const mapStateToProps = (state, ownProps) => {
