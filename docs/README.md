@@ -6,7 +6,7 @@
 - @comfy/react-router-redux
 - [@comfy/react-router-container](./packages/react-router-container/README.md)
 - @comfy/react-state-container
-- [@comfy/with-load-data](./packages/wiith-load-data/README.md)
+- [@comfy/with-load-data](./packages/with-load-data/README.md)
 - @comfy/with-styles
 - @comfy/with-module
 
