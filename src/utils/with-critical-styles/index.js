@@ -30,14 +30,6 @@ const withCriticalStyles = (...styles) => InnerComponent => {
       )
     }
   }
-  // WithCriticalStyles.propTypes = {
-  //   location: PropTypes.object,
-  //   match: PropTypes.object,
-  //   wrappedComponentRef: PropTypes.func
-  // }
-  // WithCriticalStyles.contextTypes = {
-  //   store: PropTypes.object
-  // }
   WithCriticalStyles.displayName = `withCriticalStyles(${InnerComponent.displayName ||
     InnerComponent.name})`
   WithCriticalStyles.WrappedComponent = InnerComponent
