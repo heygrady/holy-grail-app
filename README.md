@@ -22,6 +22,8 @@ Currently the development experience is a little bonkers.
 
 - Build the client and server bundles: `yarn build` or `yarn build:client` or `yarn build:server`
 - Start the server: `yarn start:server`
-- Start the watcher: `yarn build:server:watch` (there is no client watcher yet, so you need to manually rebuild the client)
+- Start the watcher: `yarn build:server:watch`
 
-Ideally you'd be able to simply do `yarn start:server` and have watchers automatically started to create the client and server bundles as you work. Pull requests welcomed! Also, right now the server and client bundles are built in client mode which means it's difficult to debug. If you need a more robust debugging experience, do `yarn start` to launch the client-only dev server that ships with create react app.
+**Note:** There is no client watcher yet, so you need to manually `yarn build:client` to see changes on the client side.
+
+Ideally you'd be able to simply do `yarn start:server` and have watchers automatically started to create the client and server bundles as you work. Pull requests welcomed! Also, right now the server and client bundles are built in production mode which means it's difficult to debug. If you need a more robust debugging experience, do `yarn start` to launch the client-only dev server that ships with create react app.
