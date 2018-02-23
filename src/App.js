@@ -25,8 +25,8 @@ class App extends Component {
           </p>
           <span className="App-link">Learn React</span>
           <TopNav />
+          <Routes />
         </header>
-        <Routes />
       </div>
     )
   }

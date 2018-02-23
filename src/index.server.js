@@ -7,12 +7,12 @@ import { getBundles } from 'react-loadable/webpack'
 
 import App from './App'
 import { routes } from './routes'
-import createStaticHistory from './utils/createStaticHistory'
+import createStaticHistory from './utils/staticHistory'
 import preloadRoutes from './utils/preloadRoutes'
 
 export const preloadModules = preloadAll
 
-export default async ({ context, url, stats }) => {
+export default async ({ context, stats, url }) => {
   const store = {}
   const history = createStaticHistory(url, context)
 
