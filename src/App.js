@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 
 import withCriticalStyles from './utils/with-critical-styles'
@@ -12,12 +13,16 @@ import styles from './App.css'
 
 class App extends Component {
   componentWillMount() {
-    // const { firstLoad, onBeginFirstLoad } = this.props
-    // onBeginFirstLoad()
+    const { onBeginFirstLoad } = this.props
+    if (onBeginFirstLoad) {
+      onBeginFirstLoad()
+    }
   }
   componentDidMount() {
-    // const { firstLoad, onEndFirstLoad } = this.props
-    // onEndFirstLoad()
+    const { onEndFirstLoad } = this.props
+    if (onEndFirstLoad) {
+      onEndFirstLoad()
+    }
   }
   render() {
     return (
@@ -38,6 +43,10 @@ class App extends Component {
       </div>
     )
   }
+}
+App.propTypes = {
+  onBeginFirstLoad: PropTypes.func,
+  onEndFirstLoad: PropTypes.func
 }
 
 export default withCriticalStyles(globalStyles, styles)(App)

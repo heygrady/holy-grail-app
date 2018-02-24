@@ -1,4 +1,3 @@
-import { persistStore } from 'redux-persist'
 import {
   applyMiddleware,
   compose,
@@ -35,8 +34,7 @@ const createStore = (initialState = {}) => {
   store.runSaga = runSaga
 
   runSaga(rootSaga)
-  const persistor = persistStore(store)
-  return { store, persistor }
+  return store
 }
 
 export default createStore

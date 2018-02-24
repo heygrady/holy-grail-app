@@ -1,23 +1,14 @@
 import { combineReducers } from 'redux'
-import { persistReducer } from 'redux-persist'
-import localForage from 'localforage'
 
 // Reducers
 import { reducers } from '../modules'
 
-export const ROOT_PERSIST_KEY = '@@holy-grail-app'
-
-const config = {
-  key: ROOT_PERSIST_KEY,
-  storage: localForage
-}
-
-export const makeRootReducer = asyncReducers => {
+export const makeRootReducer = (asyncReducers, disablePersist) => {
   const rootReducer = combineReducers({
     ...reducers,
     ...asyncReducers
   })
-  return persistReducer(config, rootReducer)
+  return rootReducer
 }
 
 export const injectReducer = (store, { key, reducer }) => {

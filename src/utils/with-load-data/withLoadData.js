@@ -12,11 +12,16 @@ const __SERVER__ = !(
 
 const defaultDelay = 200
 const defaultTimeout = 1000
+const defaultSelectFirstLoad = state => state.app && state.app.firstLoad
 
 const withLoadData = (
   loadData,
   Loading = DefaultLoading,
-  { delay = defaultDelay, timeout = defaultTimeout } = {}
+  {
+    delay = defaultDelay,
+    timeout = defaultTimeout,
+    selectFirstLoad = defaultSelectFirstLoad
+  } = {}
 ) => {
   // TODO: invariant if loadData === undefined
   return InnerComponent => {
@@ -26,6 +31,7 @@ const withLoadData = (
         this.state = {
           error: false,
           loaded: false,
+          firstLoad: false,
           pastDelay: false,
           preloaded: false,
           timedOut: false
@@ -48,6 +54,16 @@ const withLoadData = (
           }
         }
 
+        const { store } = this.context
+        const state = store.getState()
+        const firstLoad = selectFirstLoad(state)
+        if (this.state.firstLoad !== firstLoad) {
+          this.setState({ firstLoad })
+        }
+        if (firstLoad) {
+          return
+        }
+
         this.setState({ loaded: false })
 
         this.timeoutId = setTimeout(() => {
@@ -60,7 +76,6 @@ const withLoadData = (
           this.setState({ pastDelay: true })
         }, delay)
 
-        const { store } = this.context
         const { history, match } = this.props
         const promise = loadData(store, history, match)
 
@@ -98,8 +113,8 @@ const withLoadData = (
       }
 
       render() {
-        const { error, loaded, pastDelay, timedOut } = this.state
-        if (!__SERVER__ && !loaded) {
+        const { error, firstLoad, loaded, pastDelay, timedOut } = this.state
+        if (!__SERVER__ && !firstLoad && !loaded) {
           return (
             <Loading
               {...this.props}
