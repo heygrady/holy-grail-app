@@ -13,7 +13,7 @@ import preloadRoutes from './utils/preloadRoutes'
 export const preloadModules = preloadAll
 
 export default async ({ context, stats, url }) => {
-  const store = {}
+  const store = { getState: () => ({ client: true }) }
   const history = createStaticHistory(url, context)
 
   await preloadRoutes(routes, store, history, true)
@@ -22,12 +22,13 @@ export default async ({ context, stats, url }) => {
   const report = moduleName => modules.push(moduleName)
   const body = renderToString(
     <Capture report={report}>
-      <StaticRouter location={url} context={context}>
+      <StaticRouter location={history.location} context={context}>
         <App />
       </StaticRouter>
     </Capture>
   )
   const helmet = Helmet.renderStatic()
   const bundles = getBundles(stats, modules)
-  return { body, helmet, bundles }
+  const state = store.getState()
+  return { body, helmet, bundles, state }
 }

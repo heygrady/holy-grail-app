@@ -22,7 +22,7 @@ router.get('*', (req, res) => {
 
     const context = {}
     render({ context, stats, url: req.url }).then(
-      ({ body, helmet, bundles }) => {
+      ({ body, helmet, bundles, state }) => {
         if (context.url) {
           res.redirect(301, context.url)
           return
@@ -40,6 +40,13 @@ router.get('*', (req, res) => {
           cssLinks = mainLink + cssLinks
           cssUrls = mainUrl + cssUrls
         }
+
+        const initialState =
+          state && Object.keys(state).length
+            ? `<script>window.__INITIAL_STATE__ = ${JSON.stringify(
+                state
+              )}</script>`
+            : ''
 
         // TODO: scan helmet links for styles and defer them
         // const helmetCssLinks = helmet.link.toString()
@@ -61,7 +68,7 @@ router.get('*', (req, res) => {
             .replace('<!-- $body -->', body)
             .replace(
               '<!-- $cssLinks -->',
-              `<noscript class="deferred-css-noscript">${cssLinks}</noscript>`
+              `${initialState}<noscript class="deferred-css-noscript">${cssLinks}</noscript>`
             )
             .replace(/(dCss\(\)\s?{)/, `$1${cssUrls}`)
             .replace(
