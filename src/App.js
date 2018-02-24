@@ -11,6 +11,14 @@ import globalStyles from './index.css'
 import styles from './App.css'
 
 class App extends Component {
+  componentWillMount() {
+    // const { firstLoad, onBeginFirstLoad } = this.props
+    // onBeginFirstLoad()
+  }
+  componentDidMount() {
+    // const { firstLoad, onEndFirstLoad } = this.props
+    // onEndFirstLoad()
+  }
   render() {
     return (
       <div className="App">
