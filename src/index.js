@@ -1,15 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 import { BrowserRouter } from 'react-router-dom'
 import { preloadReady } from 'react-loadable'
 
-import App from './App'
+import createStore from './store/createStore'
+import AppContainer from './AppContainer'
 
 const rootElement = document.getElementById('root')
 const shouldHydrate = rootElement.children.length > 0
 
 // Preload react-loadable bundles
 const ready = preloadReady()
+const initialState = window.__INITIAL_STATE__
+const { store, persistor } = createStore(initialState)
 
 // Expose mainApp init on window for deferred style loading
 let timeout
@@ -22,9 +27,13 @@ window.mainApp = () => {
 
     // Hydrate only if the root has server-generated html in it
     ReactDOM[shouldHydrate ? 'hydrate' : 'render'](
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>,
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter>
+            <AppContainer />
+          </BrowserRouter>
+        </PersistGate>
+      </Provider>,
       rootElement
     )
   })
