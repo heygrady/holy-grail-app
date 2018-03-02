@@ -15,8 +15,7 @@ import preloadRoutes from './utils/preloadRoutes'
 export const preloadModules = preloadAll
 
 export default async ({ context, stats, url, initialState }) => {
-  const store = createStore(initialState, { disablePersist: true })
-  // console.log(store)
+  const store = createStore(initialState)
   const history = createStaticHistory(url, context)
 
   await preloadRoutes(routes, store, history, true)
